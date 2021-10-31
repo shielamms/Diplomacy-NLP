@@ -13,8 +13,9 @@ def evaluate(X, y, predictions):
     })
 
     print('Classification Report:\n', eval_report)
-    print('Results:\n', eval_results)
     print('=' * 20, '\n')
+
+    return eval_results
 
 
 if __name__ == '__main__':
@@ -54,7 +55,7 @@ if __name__ == '__main__':
 
     # Test input
     while True:
-        print('\n\n')
+        print('\n')
         test_message = input('Your test message: ')
         X_test = vectorizer.transform([test_message])
         prediction = classifier.predict(X_test)[0]
