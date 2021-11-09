@@ -45,8 +45,9 @@ class DiplomacyMessageVectorizer:
 
         return self.training_matrix, self.training_labels
 
-    def transform(self, messages):
-        return self.vectorizer.transform(messages).todense()
+    def transform(self, df):
+        df['messages'] = df['messages'].apply(lambda x: self.clean_message(x))
+        return self.vectorizer.transform(df['messages']).todense()
 
     def _oversample_training_minority(self):
         oversampler = SMOTE(sampling_strategy='minority', k_neighbors=5)
@@ -89,4 +90,4 @@ class DiplomacyMessageVectorizer:
                   )
         message = cls.remove_emojis(message)
 
-        return message.strip()
+        return message.lower().strip()

@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     # Validate
     validation_df = reader.read_from_file('data/validation.jsonl')
-    X_val = vectorizer.transform(validation_df['messages'])
+    X_val = vectorizer.transform(validation_df)
     predictions = classifier.predict(X_val)
 
     print(f'Validation Results: (model: {classifier.name})')
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     # Test
     test_df = reader.read_from_file('data/test.jsonl')
-    X_test = vectorizer.transform(test_df['messages'])
+    X_test = vectorizer.transform(test_df)
     predictions = classifier.predict(X_test)
 
     print(f'Test Results: (model: {classifier.name})')
@@ -57,7 +57,9 @@ if __name__ == '__main__':
     while True:
         print('\n')
         test_message = input('Your test message: ')
-        X_test = vectorizer.transform([test_message])
+        X_test = vectorizer.transform(
+                    pd.DataFrame({'messages': [test_message]})
+                )
         prediction = classifier.predict(X_test)[0]
 
         print('The AI thinks...')
