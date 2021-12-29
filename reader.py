@@ -21,14 +21,16 @@ class DiplomacyGamesReader:
                 game = json.loads(line)
                 games.append(game)
 
-        df = pd.DataFrame(games)[self.TARGET_COLS]
+        games_df = pd.DataFrame(games)[self.TARGET_COLS]
 
-        assert 'game_id' in df.columns, "game_id column not found"
-        assert 'sender_labels' in df.columns, "sender_labels column not found"
+        assert 'game_id' in games_df.columns, "game_id column not found"
+        games_df = games_df.set_index('game_id')
 
-        df = df.set_index('game_id').apply(pd.Series.explode).reset_index()
-        df = self.__class__.validate_binary_class_labels(df)
-        self.data = df
+        assert 'sender_labels' in games_df.columns, \
+                "sender_labels column not found"
+
+        messages_df = games_df.apply(pd.Series.explode).reset_index()
+        self.data = self.__class__.validate_binary_class_labels(messages_df)
 
         return self.data
 

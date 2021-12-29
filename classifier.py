@@ -1,17 +1,14 @@
-import pandas as pd
 from sklearn import svm
 
 
-class DiplomacyMessageClassifier:
-    classifiers = {
-        'SVC': svm.SVC(C=1,
-                        kernel='linear',
-                        decision_function_shape='ovo')
-    }
+CLASSIFIERS = {
+    'SVC': svm.SVC(C=1, kernel='linear', decision_function_shape='ovo')
+}
 
+class DiplomacyMessageClassifier:
     def __init__(self, classifier='SVC'):
         print('-- DiplomacyMessageClassifier init --')
-        self.classifier = self.classifiers[classifier]
+        self.classifier = CLASSIFIERS[classifier]
         self.name = classifier
         self.predictions = None
 

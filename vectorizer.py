@@ -35,6 +35,7 @@ class DiplomacyMessageVectorizer:
         assert 'sender_labels' in train_df.columns, 'sender_labels not found'
 
         train_df = self._preprocess_messages(train_df)
+        # convert True labels to 1, False to 0
         self.training_labels = train_df['sender_labels'].astype(int)
         self.training_matrix = (self.vectorizer
                                     .fit_transform(train_df['messages'])
@@ -60,8 +61,8 @@ class DiplomacyMessageVectorizer:
     def _tokenize_and_remove_stopwords(self, message):
         tokens = casual_tokenize(message, reduce_len=True)
         tokens = ([t for t in tokens
-                        if t not in self._stopwords and
-                           t not in self._punctuations
+                        if t not in self._stopwords
+                        and t not in self._punctuations
                  ])
         return tokens
 
